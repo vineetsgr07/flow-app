@@ -1,6 +1,8 @@
+import { workFlowDetails } from "../type";
 
 const initialState = {
-    items: []
+    items: [],
+    filterItems: []
 }
 
 const workflow = (state = initialState, action: any) => {
@@ -20,6 +22,11 @@ const workflow = (state = initialState, action: any) => {
             const newState = state.items.filter((x: any) => x.id !== action.id)
             return Object.assign({}, state, { items: newState })
 
+        case 'FILTER_WORKFLOW':
+            const filter = state.items.filter((item: workFlowDetails) =>
+                item.name.toLocaleLowerCase().includes(action.text.toLocaleLowerCase())
+            )
+            return Object.assign({}, state, { filterItems: filter })
         default:
             return state
     }

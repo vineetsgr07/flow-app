@@ -8,7 +8,7 @@ interface cardP {
     handler: any
 }
 
-const Card = ({ item: { name, status, content, id }, handler: { deleteCard, route } }: cardP) => {
+const Card = ({ item: { name, status, content, id }, handler: { remove, route } }: cardP) => {
 
     console.log("id", id)
     return <>
@@ -18,7 +18,7 @@ const Card = ({ item: { name, status, content, id }, handler: { deleteCard, rout
         }
         } className="card">
             <button onClick={() => {
-                return deleteCard(id)
+                return remove(id)
             }
             }> Delete </button>
             {name}

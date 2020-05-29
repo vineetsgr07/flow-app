@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Card from "../components/Card";
 import "./style.css";
-import { addWorkflow, filterWorkflow, deleteWorkflow } from "../action/workflow.action";
+import * as actions from "../action/workflow.action";
 
 const workFlowData = [
     {
@@ -19,16 +19,16 @@ const workFlowData = [
 interface workflowT {
     addflow: (addWorkflow: any) => void
     filterflow: (addWorkflow: any) => void
-    deleteflow: (id: number) => void
+    removeWorkflow: (id: number) => void
     changeWorkflowTitle: (title: string) => void
+    changeStatus: () => {}
     workflow: any
     history: any
 }
 
-const Workflow = ({ addflow, workflow, deleteflow, filterflow, changeWorkflowTitle, history }: workflowT) => {
+const Workflow = ({ addflow, workflow, removeWorkflow, filterflow, changeWorkflowTitle, changeStatus, history }: workflowT) => {
 
     const routeToNode = (id: number) => {
-        debugger
         history.push(`/node/${id}`)
     }
 
@@ -36,15 +36,16 @@ const Workflow = ({ addflow, workflow, deleteflow, filterflow, changeWorkflowTit
         <>
             <WorkflowOperations
                 createWorkflow={() => addflow("Workflow")}
-                filterWorkflow={() => filterflow}
+                filterWorkflow={(querry) => filterflow(querry)}
             />
             <Card
                 items={workflow}
                 handler={
                     {
                         route: (id: number) => routeToNode(id),
-                        deleteCard: (id: number) => deleteflow(id),
-                        editTitle: () => changeWorkflowTitle
+                        remove: (id: number) => removeWorkflow(id),
+                        editTitle: () => changeWorkflowTitle,
+                        status: () => changeStatus
                     }
                 }
             />
@@ -54,18 +55,29 @@ const Workflow = ({ addflow, workflow, deleteflow, filterflow, changeWorkflowTit
 
 interface WorkflowOperationsType {
     createWorkflow: () => void
-    filterWorkflow: () => void
+    filterWorkflow: (querry: string) => void
 }
 
 const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperationsType) => {
+
+    const [search, setSeach] = React.useState('')
+
+    const setFilter = (e: any) => {
+        setSeach(e.target.value)
+    }
+
+    const filter = () => {
+        filterWorkflow(search)
+    }
+
     return (
         <>
             <div className="flex-row">
                 <div className="search-workflow">
-                    <input placeholder="Search Workflows" />
+                    <input placeholder="Search Workflows" onChange={(e: any) => setFilter(e)} />
                 </div>
                 <div className="filter-workflow">
-                    <button name="Filter" onClick={() => filterWorkflow}> Filter </button>
+                    <button name="Filter" onClick={(search: any) => filter()}> Filter </button>
                 </div>
                 <div className="creare-workflow">
                     <button name="Create Workflow"
@@ -80,18 +92,18 @@ const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperatio
 }
 
 const mapStateToPros = (state: any) => {
-    debugger
     return {
-        workflow: state.workflow.items
+        workflow: state.workflow.filterItems.length === 0 ? state.workflow.items : state.workflow.filterItems
     }
 }
 
-const mapDispatchToProps = (dipatch: any) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
-        addflow: (item: any) => dipatch(addWorkflow(item)),
-        filterflow: (id: string) => dipatch(filterWorkflow(id)),
-        deleteflow: (id: number) => dipatch(deleteWorkflow(id)),
-        changeWorkflowTitle: (title: string) => { }
+        addflow: (item: any) => dispatch(actions.addWorkflow(item)),
+        filterflow: (id: string) => dispatch(actions.filterWorkflow(id)),
+        removeWorkflow: (id: number) => dispatch(actions.deleteWorkflow(id)),
+        changeWorkflowTitle: () => dispatch(actions.editWorkflowTitle),
+        changeStatus: () => dispatch(actions.changeWorkflowStatus)
     }
 }
 

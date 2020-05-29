@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import './style.css';
 import Cards from "../components/Card";
 import * as actions from "../action/node.action";
+import { workFlowDetails } from "../type";
 
 interface NodeT {
     shuffleHandler: () => void
