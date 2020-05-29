@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,MACI,qBAAuB,CACvB,WAAY,CACZ,YACJ,CAJA,UACI,YAAa,CACb,iBACJ","file":"4.e67885b0.chunk.css","sourcesContent":[".flex-row {\n    display: flex;\n    flex-grow: inherit;\n}"]}

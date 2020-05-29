@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,UACI,YAAa,CACb,iBACJ,CAHA,MACI,qBAAuB,CACvB,WAAY,CACZ,YACJ","file":"3.e67885b0.chunk.css","sourcesContent":[".card {\n    border: 1px solid black;\n    width: 200px;\n    height: 400px;\n}\n\n\n"]}
