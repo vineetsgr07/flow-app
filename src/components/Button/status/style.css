@@ -1,0 +1,41 @@
+#tickcontainer {
+  height:30px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.tickbg {
+  content:"\00a0";
+  border-radius: 18px;
+  -moz-border-radius: 18px;
+  -webkit-border-radius: 18px;
+  height: 0;
+  width: 0;
+  display: block;
+}
+
+.pending{
+  border: solid 16px grey;
+}
+
+.complete{
+  border: solid 16px #00CD00;
+}
+
+.inprogress{
+  border: solid 16px #5797d6;
+}
+
+.tick {
+  height: 12px;
+  width: 6px;
+  border: solid #FFFFFF;
+  border-width: 0px 4px 4px 0px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  display: block;
+  margin-top: -10px;
+  margin-left: -4px;
+}

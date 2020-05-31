@@ -1,32 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import Card from "../components/Card";
+import { Cards } from "../components/Card";
 import "./style.css";
 import * as actions from "../action/workflow.action";
-
-const workFlowData = [
-    {
-        name: 'Workflow 1',
-        status: 'COMPLETED',
-    },
-    {
-        name: 'Workflow 1',
-        status: 'COMPLETED',
-    }
-]
+import { workFlowDetails } from "../type";
+import StatusBtn from "../components/Button/status";
+import RemoveBtn from "../components/Button/remove";
 
 interface workflowT {
-    addflow: (addWorkflow: any) => void
-    filterflow: (addWorkflow: any) => void
-    removeWorkflow: (id: number) => void
-    changeWorkflowTitle: (title: string) => void
-    changeStatus: () => {}
+    add: (addWorkflow: any) => void
+    filter: (addWorkflow: any) => void
+    remove: (id: number) => void
+    editTitle: (title: string) => void
+    toggleStatus: (id:number) => void
     workflow: any
     history: any
 }
 
-const Workflow = ({ addflow, workflow, removeWorkflow, filterflow, changeWorkflowTitle, changeStatus, history }: workflowT) => {
+const Workflow = ({ add, workflow, remove, filter, editTitle, toggleStatus, history }: workflowT) => {
 
     const routeToNode = (id: number) => {
         history.push(`/node/${id}`)
@@ -35,20 +27,24 @@ const Workflow = ({ addflow, workflow, removeWorkflow, filterflow, changeWorkflo
     return (
         <>
             <WorkflowOperations
-                createWorkflow={() => addflow("Workflow")}
-                filterWorkflow={(querry) => filterflow(querry)}
+                createWorkflow={() => add("Workflow")}
+                filterWorkflow={(querry) => filter(querry)}
             />
-            <Card
+            <Cards
                 items={workflow}
-                handler={
-                    {
-                        route: (id: number) => routeToNode(id),
-                        remove: (id: number) => removeWorkflow(id),
-                        editTitle: () => changeWorkflowTitle,
-                        status: () => changeStatus
-                    }
-                }
-            />
+            >
+                {(task: any) => {
+                    return <WorkflowCard
+                        item={task}
+                        handler={{
+                            route: (id: number) => routeToNode(id),
+                            remove: (id: number) => remove(id),
+                            editTitle: () => editTitle,
+                            toggleStatus: (id:number) => toggleStatus(id)
+                        }} />
+                }}
+            </Cards>
+
         </>
     )
 }
@@ -60,15 +56,10 @@ interface WorkflowOperationsType {
 
 const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperationsType) => {
 
-    const [search, setSeach] = React.useState('')
+    const [search, setSeach] = React.useState('');
 
-    const setFilter = (e: any) => {
-        setSeach(e.target.value)
-    }
-
-    const filter = () => {
-        filterWorkflow(search)
-    }
+    const setFilter = (e: any) => setSeach(e.target.value);
+    const filter = () => filterWorkflow(search);
 
     return (
         <>
@@ -91,6 +82,54 @@ const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperatio
     )
 }
 
+interface cardP {
+    item: workFlowDetails
+    handler: any
+}
+
+const WorkflowCard = ({ item: { name, status, id }, handler: { remove, route, toggleStatus } }: cardP) => {
+
+    const [title, setTitle] = useState(name);
+
+    return <>
+        <div
+            onClick={() => route(id)}
+            className="card-workflow">
+
+            <RemoveBtn
+                removeHandler={(e: any) => {
+                    remove(id)
+                    e.stopPropagation()
+                }}
+            />
+
+            <div className="flex-column">
+                <div>
+                    <input
+                        className="title-box"
+                        onClick={(e) => {
+                            e.stopPropagation()
+                        }}
+                        onChange={(e) => {
+                            setTitle(e.target.value)
+                            e.stopPropagation()
+                        }}
+                        value={title} />
+                </div>
+                <div className="flex-row">
+                    <div>status</div>
+                    <StatusBtn
+                        statusHandler={(e: any) => {
+                            toggleStatus(id)
+                            e.stopPropagation()
+                        }}
+                        status="COMPLETE" />
+                </div>
+            </div>
+        </div>
+    </>
+}
+
 const mapStateToPros = (state: any) => {
     return {
         workflow: state.workflow.filterItems.length === 0 ? state.workflow.items : state.workflow.filterItems
@@ -99,11 +138,11 @@ const mapStateToPros = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addflow: (item: any) => dispatch(actions.addWorkflow(item)),
-        filterflow: (id: string) => dispatch(actions.filterWorkflow(id)),
-        removeWorkflow: (id: number) => dispatch(actions.deleteWorkflow(id)),
-        changeWorkflowTitle: () => dispatch(actions.editWorkflowTitle),
-        changeStatus: () => dispatch(actions.changeWorkflowStatus)
+        add: (item: any) => dispatch(actions.addWorkflow(item)),
+        filter: (id: string) => dispatch(actions.filterWorkflow(id)),
+        remove: (id: number) => dispatch(actions.deleteWorkflow(id)),
+        editTitle: () => dispatch(actions.editWorkflowTitle),
+        toggleStatus: (id:number) => dispatch(actions.changeWorkflowStatus(id))
     }
 }
 

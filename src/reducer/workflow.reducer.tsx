@@ -27,6 +27,7 @@ const workflow = (state = initialState, action: any) => {
                 item.name.toLocaleLowerCase().includes(action.text.toLocaleLowerCase())
             )
             return Object.assign({}, state, { filterItems: filter })
+
         default:
             return state
     }

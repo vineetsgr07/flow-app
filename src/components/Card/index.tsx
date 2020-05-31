@@ -1,27 +1,26 @@
 import React from "react";
 import './style.css';
-import Card from "./card";
 import { workFlowDetails } from "../../type";
-
 
 export interface CardContent {
     items: Array<workFlowDetails>
-    handler: any
+    children: any
 }
 
-const Cards = ({ items, ...handler }: CardContent) => {
-
+export const Cards = ({ items, children }: CardContent) => {
     return <>
-        <div className="flex-row">
+        <div className="flex-row m-16">
             {
-                items && items.map((item: workFlowDetails) => {
-                    return <Card item={item} { ...handler } />
+                items && items.map((item: workFlowDetails, index: any) => {
+                    return <div key={`${index}_item_${item.id}`} className="flex-column m-8">
+                        {
+                            children(item)
+                        }
+                    </div>
                 })
             }
         </div>
     </>
 }
-
-// deleteItem={(id: any) => deleteItems(id)} 
 
 export default Cards;

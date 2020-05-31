@@ -1,4 +1,31 @@
 .flex-row {
     display: flex;
     flex-grow: inherit;
+    flex-wrap: wrap;
+}
+
+.flex-column {
+    display: flex;
+    flex-grow: inherit;
+    flex-direction: column;
+}
+
+.disable-click{
+    pointer-events:none
+}
+
+.card-workflow {
+    border: 1px solid black;
+    width: 200px;
+    height: 100px;
+}
+
+.card-node {
+    border: 1px solid black;
+    width: 200px;
+    height: 400px;
+}
+
+.title-box{
+    width: 160px;
 }

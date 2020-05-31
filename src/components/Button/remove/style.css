@@ -1,0 +1,16 @@
+.remove-btn{
+  background-color: #ED2939;
+  width: 30px;
+  height: 30px;
+  border-radius: 18px;
+  color: white;
+  text-align:center;
+  display: flex;
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+  margin: auto;
+  fill: white;
+}

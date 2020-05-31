@@ -3,8 +3,6 @@ import React from "react";
 
 const Login = (prop: any) => {
 
-    console.log(prop)
-
     const loginHandler = () => {
 
     }
@@ -31,4 +29,4 @@ const Login = (prop: any) => {
 }
 
 
-export default Login
+export default Login;
