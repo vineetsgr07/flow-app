@@ -1,0 +1,21 @@
+.login{
+    width: 400px;
+    height: 400px;
+    font-size: 16px;
+}
+
+.vh{
+    height: 100vh;
+}
+
+.input-login{
+    height: 32px;
+}
+
+.login-btn{
+    width: 350px !important;
+    height: 32px;
+}
+
+/* .sign-up{
+} */

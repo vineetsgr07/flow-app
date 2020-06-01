@@ -12,7 +12,7 @@ export const Cards = ({ items, children }: CardContent) => {
         <div className="flex-row m-16">
             {
                 items && items.map((item: workFlowDetails, index: any) => {
-                    return <div key={`${index}_item_${item.id}`} className="flex-column m-8">
+                    return <div key={`${index}_item_${item.id}`} className="flex-column m-16 card p-16">
                         {
                             children(item)
                         }

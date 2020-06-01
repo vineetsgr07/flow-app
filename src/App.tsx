@@ -10,16 +10,18 @@ import './App.css';
 const Login = React.lazy(() => import('./components/Login'));
 const Workflow = React.lazy(() => import('./container/workflow'));
 const Node = React.lazy(() => import('./container/node'));
+const Header = React.lazy(() => import('./components/Header'))
 
 function App() {
   return (
     <div >
       <Suspense fallback={<div>...Loading</div>}>
         <Router>
+          <Header />
           <Switch>
-            <Route component={Login} path="/login" />
-            <Route component={Workflow} path="/workflow" />
-            <Route component={Node} path="/node/:id" />
+            <Route exact component={Login} path="/" />
+            <Route exact component={Workflow} path="/workflow" />
+            <Route exact component={Node} path="/node/:id" />
           </Switch>
         </Router>
       </Suspense>
@@ -27,8 +29,8 @@ function App() {
   );
 }
 
-const PrivateRoute = () => {
+// const PrivateRoute = () => {
 
-}
+// }
 
 export default App;

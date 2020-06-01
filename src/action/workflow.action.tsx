@@ -1,5 +1,5 @@
 import { workFlowDetails } from "../type";
-import { addFirstNode } from "./node.action";
+import { addFirstNode, DELETE_NODE } from "./node.action";
 
 let nextWorkflow = 0
 
@@ -23,6 +23,7 @@ export const DELETE_WORKFLOW = 'DELETE_WORKFLOW'
 export const deleteWorkflow = (id: number) => {
     return (dispatch: any) => {
         dispatch({ type: DELETE_WORKFLOW, id: id })
+        dispatch({ type: DELETE_NODE, id })
     }
 }
 
@@ -33,9 +34,16 @@ export const editWorkflowTitle = (id: number) => {
     }
 }
 
-export const CHANGE_STATUS = 'CHANGE_STATUS'
+export const CHANGE_WORKFLOW_STATUS = 'CHANGE_WORKFLOW_STATUS'
 export const changeWorkflowStatus = (id: number) => {
-    return (dispatch: any) => {
-        dispatch({ type: CHANGE_STATUS, id })
+    return (dispatch: any, getState: any) => {
+        
+        let isComplete = getState().node.NodeList
+            .filter((node: any) => node.workFlowID === id)[0].nodes
+            .filter((node: any) => node.status !== 'COMPLETE');
+        if (isComplete.length === 0) {
+            dispatch({ type: CHANGE_WORKFLOW_STATUS, id })
+        }
+
     }
 }

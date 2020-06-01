@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import './style.css';
 import { Cards } from "../components/Card";
 import * as actions from "../action/node.action";
-import { workFlowDetails, NodeTaskT } from "../type";
+import { workFlowDetails } from "../type";
 import StatusBtn from "../components/Button/status";
 
 interface NodeT {
@@ -14,38 +14,60 @@ interface NodeT {
     save: () => void
     toggleStatus: (id: number) => void
     editContent: (id: number, text: string) => void
-    editTitle: (string: any) => void
-    NodeList: any
+    editTitle: (id: number, text: string) => void
+    editFlowTitle: (flowName: any) => void
+    clearSelectedNode: () => void
+    selectedNode: any
     history: any
+    workFlowName: string
 }
 
-const Node = ({ shuffle, remove, add, save, NodeList, toggleStatus, editContent, editTitle, setCurrentNode, history }: NodeT) => {
+const Node = ({ shuffle,
+    remove,
+    add,
+    save,
+    selectedNode,
+    toggleStatus,
+    editContent,
+    editTitle,
+    setCurrentNode,
+    history,
+    workFlowName,
+    editFlowTitle,
+    clearSelectedNode
+}: NodeT) => {
 
     useEffect(() => {
         let selectedFlow = parseInt(history.location.pathname.split('/')[2]);
         setCurrentNode(selectedFlow)
+
+        return () => {
+            clearSelectedNode()
+        }
     }, [])
 
     return <div>
-        <NodeOperation
+        {(workFlowName === "" || workFlowName) && <NodeOperation
             shuffle={shuffle}
-            deleteNode={remove}
+            deleteNode={() => remove()}
             addNode={() => add()}
             save={save}
-        />
-        <Cards
-            items={NodeList}
+            editFlowTitle={(currentFlow: any) => editFlowTitle(currentFlow)}
+            flowTitle={workFlowName}
+        />}
+        {selectedNode && <Cards
+            items={selectedNode}
         >
             {(task: any) => {
                 return <NodeCard
                     item={task}
                     handler={{
                         toggleStatus: (id: number) => toggleStatus(id),
-                        editTitle: (id: string) => editTitle(id),
+                        editTitle: (id: number, text: string) => editTitle(id, text),
                         editContent: (id: number, text: string) => editContent(id, text)
                     }} />
             }}
-        </Cards>
+        </Cards>}
     </div>
 }
 
@@ -54,52 +76,93 @@ interface cardP {
     handler: any
 }
 
-const NodeCard = ({ item: { name, status, content, id }, handler: { toggleStatus } }: cardP) => {
 
-    console.log("id", id)
+const NodeOperation = ({ shuffle, deleteNode, addNode, save, flowTitle, editFlowTitle }: any) => {
+
+    const [flowName, setFlowName] = useState(flowTitle)
+
+    useEffect(() => {
+        setFlowName(flowName)
+    })
+
+    const taskHandler = (e: any) => {
+        setFlowName(e.target.value);
+        editFlowTitle(e.target.value)
+    }
+
     return <>
-        <div className="card-node">
-            <StatusBtn
-                statusHandler={(e: any) => {
-                    toggleStatus(id);
-                }}
-                status={status} />
-            {name}
-            {status}
-            {content}
+        <div className="flex-row flow-operation flex-space-between">
+            <div> <input onChange={(e: any) => taskHandler(e)} className="workflow-name m-l-32 " value={flowName} /> </div>
+            <div className="m-r-32">
+                <button className="btn shuffle-btn rounded-btn m-r-8 m-l-8" onClick={() => shuffle()}>Shuffle</button>
+                <button className="btn danger-btn rounded-btn m-r-8 m-l-8" onClick={() => deleteNode()}>Delete</button>
+                <button className="btn create-btn rounded-btn m-r-8 m-l-8" onClick={() => addNode()}>Add Note</button>
+                <button className="btn save-btn rounded-btn m-r-8 m-l-8" onClick={() => save()}>Save</button>
+            </div>
         </div>
     </>
 }
 
-const NodeOperation = ({ shuffle, remove, addNode, save, nodeName }: any) => {
+const NodeCard = ({ item: { name, status, content, id }, handler: { toggleStatus, editTitle, editContent } }: cardP) => {
+
+    const [nodeName, setName] = useState(name)
+    const [nodeContent, setContent] = useState(content)
+
+    const taskHandler = (e: any) => {
+        setName(e.target.value);
+        editTitle(id, e.target.value)
+    }
+
+    const contentHandler = (e: any) => {
+        setContent(e.target.value);
+        editContent(id, e.target.value)
+    }
 
     return <>
-        <div className="flex-row">
-            <div> <input value={nodeName} /> </div>
-            <button onClick={() => shuffle()}>Shuffle</button>
-            <button onClick={() => remove()}>Delete</button>
-            <button onClick={() => addNode()}>Add Note</button>
-            <button onClick={() => save()}>Save</button>
+        <div className="card-node">
+            <div className="right-top">
+                <StatusBtn
+                    statusHandler={(e: any) => {
+                        toggleStatus(id);
+                    }}
+                    status={status} />
+            </div>
+            <div className="flex-column">
+                <div className="m-b-8">
+                    <input className="title-box " onChange={(e) => taskHandler(e)} value={nodeName} />
+                </div>
+                <div className="m-t-8">
+                    <textarea
+                        className="content-box"
+                        value={nodeContent}
+                        onChange={(e: any) => contentHandler(e)}
+                        name="comment"
+                        form="usrform">
+                    </textarea>
+                </div>
+            </div>
         </div>
     </>
 }
 
 const mapStateToProps = (state: any) => {
     return {
-        NodeList: state.node.selectedNode.nodes
+        selectedNode: state.node.selectedNode.nodes,
+        workFlowName: state.node.selectedNode.workFlowName
     }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-
-    setCurrentNode: (id: number) => dispatch(actions.setCurrentNodee(id)),
-    add: () => dispatch(actions.addNode()),
+    setCurrentNode: (id: number) => dispatch(actions.setCurrentNode(id)),
+    add: () => dispatch(actions.addNode("Node")),
     shuffle: () => dispatch(actions.shuffleNode()),
-    remove: () => dispatch(actions.deleteNode()),
+    remove: () => dispatch(actions.deleteLastNode()),
     save: () => dispatch(actions.saveNode()),
     toggleStatus: (id: number) => dispatch(actions.changeNodeStatus(id)),
+    editFlowTitle: (text: string) => dispatch(actions.editFlowTitle(text)),
+    clearSelectedNode: () => dispatch(actions.clearSelectedNode()),
     editContent: (id: number, text: string) => dispatch(actions.editNodeContent(id, text)),
-    editTitle: () => dispatch(actions.editNodeTitle())
+    editTitle: (id: number, text: string) => dispatch(actions.editNodeTitle(id, text)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Node)

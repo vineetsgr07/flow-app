@@ -1,30 +1,35 @@
 import React from "react";
+import './style.css';
 
-
-const Login = (prop: any) => {
+const Login = ({ history }: any) => {
 
     const loginHandler = () => {
-
+        history.push('/workflow');
     }
 
     return (
-        <div className="card">
-            <div>
-                <div>
-                    Login
-                </div>
-                <form>
-                    <div>
-                        <input type="email" name="Email" />
-                        <input name="Password" />
-                        <input type="checkbox" name="Password" />
+        <div className="flex-center vh">
+            <div className="card login">
+                <div className="flex-column p-16">
+                    <div className="m-16 p-8 flex-center">
+                        Login
                     </div>
-                    <button onClick={() => loginHandler()}> Login </button>
-                    <span> Don't have an account? Sign up here </span>
-                </form>
+                    <input placeholder="Email" className="input-login m-8 p-4" type="email" name="Email" />
+                    <input placeholder="Password" className="input-login p-4 m-8" name="Password" />
+                    <div className="flex-row  m-8">
+                        <input className="m-r-8" type="checkbox" name="Password" />
+                        <div> Remember Me</div>
+                    </div>
+                    <button className=" save-btn login-btn btn m-8" onClick={() => loginHandler()}> Login </button>
+                    <div className="flex-center m-t-16 sign-up">
+                        <a href="" target="_blank">
+                            Don't have an account? Sign up here
+                        </a>
+                    </div>
+                </div>
             </div>
-            This is login component
         </div>
+
     )
 }
 

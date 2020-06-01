@@ -3,7 +3,14 @@ export interface workFlowDetails {
     name: PropTypes.string
     status: PropTypes.string
     content?: PropTypes.string
-    id: string
+    id: number
+}
+
+export interface nodeDetailsT {
+    name: PropTypes.string
+    status: PropTypes.string
+    content: PropTypes.string
+    id: number
 }
 export interface NodeTaskT {
     workFlowID: number 
