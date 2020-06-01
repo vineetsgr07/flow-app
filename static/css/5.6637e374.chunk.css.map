@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,QACI,UAAW,CACX,wBAAyB,CACzB,WACJ,CAEA,YACI,YAAa,CACb,0BACJ","file":"5.6637e374.chunk.css","sourcesContent":[".header{\n    width: 100%;\n    background-color: #a900b0;\n    height: 50px;\n}\n\n.logout-btn{\n    display: flex;\n    flex-direction: row-reverse;\n}"]}
