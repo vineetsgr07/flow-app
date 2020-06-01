@@ -18,3 +18,8 @@ export interface NodeTaskT {
     content: string
     nodes: any
 }
+
+export interface NodeTextT {
+    id: string
+    text: string
+}

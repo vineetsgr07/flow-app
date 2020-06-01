@@ -1,5 +1,5 @@
 import { workFlowDetails } from "../type";
-import * as actions from "../action/workflow.action";
+import * as actions from "../action/actionsCreators";
 import { NODE_STATUS } from "./node.reducer";
 
 const initialState = {
@@ -25,7 +25,7 @@ const workflow = (state = initialState, action: any) => {
                 }]
             }
 
-        case 'DELETE_WORKFLOW':
+        case actions.DELETE_WORKFLOW:
             const newState = state.items.filter((x: any) => x.id !== action.id)
             const newfilterItemsState = state.filterItems.filter((x: any) => x.id !== action.id)
             return { ...state, items: newState, filterItems: newfilterItemsState }
@@ -47,7 +47,7 @@ const workflow = (state = initialState, action: any) => {
             })
             return { ...state, items: transformWorkflow }
 
-        case 'EDIT_WORKFLOW_TITLE':
+        case actions.EDIT_WORKFLOW_TITLE:
             const transFormFlowTitle = state.items.map((flow: any) => {
                 if (flow.id == action.id) {
                     return {

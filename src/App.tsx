@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import ReduxToastr from 'react-redux-toastr'
 
 import './App.css';
 
@@ -16,6 +17,15 @@ function App() {
   return (
     <div >
       <Suspense fallback={<div>...Loading</div>}>
+        <ReduxToastr
+          timeOut={4000}
+          newestOnTop={false}
+          preventDuplicates
+          position="bottom-right"
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+          closeOnToastrClick />
         <Router>
           <Header />
           <Switch>

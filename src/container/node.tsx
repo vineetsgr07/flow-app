@@ -68,6 +68,7 @@ const Node = ({ shuffle,
                     }} />
             }}
         </Cards>}
+        <div className="flex-center" >Note: Please save before leaving this page.</div>
     </div>
 }
 

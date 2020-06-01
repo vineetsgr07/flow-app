@@ -1,4 +1,4 @@
-import * as actions from "../action/node.action";
+import * as actions from "../action/actionsCreators";
 import { NodeTaskT, nodeDetailsT } from "../type";
 
 interface nodeREducer {
@@ -23,8 +23,8 @@ const Node = (state = initialState, action: any) => {
                     workFlowID: action.flowId,
                     workFlowName: `Workflow ${action.flowId}`,
                     nodes: [{
-                        name: `Node ${action.id}`,
-                        id: action.id,
+                        name: `Node ${0}`,
+                        id: 0,
                         status: 'PENDING'
                     }]
                 }]
@@ -40,8 +40,8 @@ const Node = (state = initialState, action: any) => {
                 selectedNode: {
                     ...state.selectedNode,
                     nodes: [...state.selectedNode.nodes, {
-                        id: action.id,
-                        name: `${action.text} ${action.id}`,
+                        id: state.selectedNode.nodes.length,
+                        name: `${action.text} ${state.selectedNode.nodes.length}`,
                         status: 'PENDING'
                     }]
                 }

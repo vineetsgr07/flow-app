@@ -1,75 +1,61 @@
+import { toastSuccess, toastInfo } from "../components/Toaster";
+import * as action from "./actionsCreators";
+
 export let nextNode = 1
 
-export const ADD_FIRST_NODE = 'ADD_FIRST_NODE'
 export const addFirstNode = (workflowId: number) => (dispatch: any) => {
-    dispatch({ type: ADD_FIRST_NODE, id: nextNode++, flowId: workflowId })
+    dispatch({ type: action.ADD_FIRST_NODE, id: nextNode++, flowId: workflowId })
+    toastSuccess('Success', `Workflow ${workflowId} added.`)
 }
 
-export const SET_CURRENT_NODE = 'SET_CURRENT_NODE';
 export const setCurrentNode = (flowId: number) => (dispatch: any) => {
-    dispatch({ type: SET_CURRENT_NODE, flowId })
+    dispatch({ type:  action.SET_CURRENT_NODE, flowId })
 }
 
-export const SHUFFLE_NODE = 'SHUFFLE_NODE'
 export const shuffleNode = () => (dispatch: any) => {
-    dispatch({ type: SHUFFLE_NODE })
+    dispatch({ type:  action.SHUFFLE_NODE })
+    toastInfo('info', `Workflow Shuffle.`)
 }
 
-export const DELETE_LAST_NODE = 'DELETE_LAST_NODE'
 export const deleteLastNode = () => (dispatch: any) => {
-    dispatch({ type: DELETE_LAST_NODE })
+    dispatch({ type:  action.DELETE_LAST_NODE })
+    toastInfo('info', `Last Node Deleted.`)
 }
 
-export const DELETE_NODE = 'DELETE_NODE'
-// export const deleteNode = () => (dispatch: any) => {
-//     dispatch({ type: DELETE_NODE })
-// }
-
-export const ADD_NODE = 'ADD_NODE'
 export const addNode = (text: string) => (dispatch: any) => {
-    dispatch({ type: ADD_NODE, id: nextNode++, text })
+    dispatch({ type:  action.ADD_NODE, id: nextNode++, text })
+    toastSuccess('success', `Node Added.`)
 }
 
-export const SAVE_NODE = 'SAVE_NODE'
 export const saveNode = () => (dispatch: any, getState: any) => {
     let seletedFlowName = getState().node.selectedNode.workFlowName
     let seletedFlowId = getState().node.selectedNode.workFlowID
 
-    dispatch({ type: SAVE_NODE })
+    dispatch({ type:  action.SAVE_NODE })
     dispatch({ type: 'EDIT_WORKFLOW_TITLE', seletedFlowName, seletedFlowId })
+    toastSuccess('success', `Node Save.`)
 }
 
-export const CHANGE_STATUS = 'CHANGE_STATUS'
 export const changeNodeStatus = (id: number) => (dispatch: any) => {
-    dispatch({ type: CHANGE_STATUS, id })
+    dispatch({ type:  action.CHANGE_STATUS, id })
 }
 
-export interface NodeTextT {
-    id: string
-    text: string
-}
-
-
-export const EDIT_FLOW_TITLE = 'EDIT_FLOW_TITLE'
 export const editFlowTitle = (text: string) => (dispatch: any, getState: any) => {
     let id = getState().node.selectedNode.workFlowID;
-    dispatch({ type: EDIT_FLOW_TITLE, text, id })
+    dispatch({ type:  action.EDIT_FLOW_TITLE, text, id })
     dispatch({ type: 'EDIT_WORKFLOW_TITLE', text, id });
 }
 
-export const EDIT_NODE_TITLE = 'EDIT_NODE_TITLE'
 export const editNodeTitle = (nodeId: number, title: string) => (dispatch: any) => {
-    dispatch({ type: EDIT_NODE_TITLE, nodeId, title })
+    dispatch({ type:  action.EDIT_NODE_TITLE, nodeId, title })
 }
 
-export const EDIT_NODE_CONTENT = 'EDIT_NODE_CONTENT'
 export const editNodeContent = (nodeId: number, content: string) => (dispatch: any) => {
-    dispatch({ type: EDIT_NODE_CONTENT, nodeId, content })
+    dispatch({ type:  action.EDIT_NODE_CONTENT, nodeId, content })
 }
 
-export const CLEAR_SELECTED_NODE = 'CLEAR_SELECTED_NODE';
 export const clearSelectedNode = () => (dispatch: any) => {
     dispatch({
-        type: CLEAR_SELECTED_NODE
+        type:  action.CLEAR_SELECTED_NODE
     })
 }
