@@ -14,8 +14,8 @@ const Login = ({ history }: any) => {
                     <div className="m-16 p-8 flex-center">
                         Login
                     </div>
-                    <input placeholder="Email" className="input-login m-8 p-4" type="email" name="Email" />
-                    <input placeholder="Password" className="input-login p-4 m-8" name="Password" />
+                    <input placeholder="Email" className="input-login m-8 p-4" type="email" name="Email" autoComplete="off"/>
+                    <input placeholder="Password" className="input-login p-4 m-8" name="Password" autoComplete="off"/>
                     <div className="flex-row  m-8">
                         <input className="m-r-8" type="checkbox" name="Password" />
                         <div> Remember Me</div>

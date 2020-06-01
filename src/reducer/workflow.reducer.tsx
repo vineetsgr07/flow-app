@@ -1,6 +1,6 @@
 import { workFlowDetails } from "../type";
 import * as actions from "../action/actionsCreators";
-import { NODE_STATUS } from "./node.reducer";
+export const NODE_STATUS = ['COMPLETE', "INPROGRESS", "PENDING"]
 
 const initialState = {
     items: [],
@@ -37,15 +37,9 @@ const workflow = (state = initialState, action: any) => {
             return { ...state, filterItems: filter };
 
         case actions.CHANGE_WORKFLOW_STATUS:
-            let transformWorkflow = state.items.map((task: any) => {
-                if (task.id === action.id) {
-                    return {
-                        ...task,
-                        status: nextStatus(task.status)
-                    }
-                } return task
-            })
-            return { ...state, items: transformWorkflow }
+
+            let transformWorkflow = state.items.map((task: any) => (task.id === action.id) ? { ...task, status: nextStatus(task.status) } : task)
+            return { ...state, items: transformWorkflow, filterItems: transformWorkflow }
 
         case actions.EDIT_WORKFLOW_TITLE:
             const transFormFlowTitle = state.items.map((flow: any) => {
@@ -58,11 +52,15 @@ const workflow = (state = initialState, action: any) => {
                     return flow
                 }
             })
-            
+
             return {
                 items: transFormFlowTitle,
-                filterItems:transFormFlowTitle
+                filterItems: transFormFlowTitle
             }
+
+        case actions.SET_PENDING_WORKFLOW:
+            let transSetPenfingWorkflow = state.items.map((task: any) => (task.id === action.seletedFlowId) ? { ...task, status: NODE_STATUS[2] } : task)
+            return { ...state, items: transSetPenfingWorkflow, filterItems: transSetPenfingWorkflow }
 
         default:
             return state
@@ -72,8 +70,10 @@ const workflow = (state = initialState, action: any) => {
 function nextStatus(status: string) {
     switch (status) {
         case NODE_STATUS[0]:
+            debugger
             return NODE_STATUS[2]
         case NODE_STATUS[2]:
+            debugger
             return NODE_STATUS[0]
     }
 }

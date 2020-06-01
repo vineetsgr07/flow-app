@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import { Cards } from "../components/Card";
-import "./style.css";
 import * as actions from "../action/workflow.action";
 import { workFlowDetails } from "../type";
 import StatusBtn from "../components/Button/status";
 import RemoveBtn from "../components/Button/remove";
+import "./style.css";
 
 interface workflowT {
     add: (addWorkflow: any) => void

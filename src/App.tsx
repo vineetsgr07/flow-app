@@ -4,9 +4,9 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import ReduxToastr from 'react-redux-toastr'
 
 import './App.css';
+import { Toastr } from "./components/Toaster";
 
 const Login = React.lazy(() => import('./components/Login'));
 const Workflow = React.lazy(() => import('./container/workflow'));
@@ -17,15 +17,7 @@ function App() {
   return (
     <div >
       <Suspense fallback={<div>...Loading</div>}>
-        <ReduxToastr
-          timeOut={4000}
-          newestOnTop={false}
-          preventDuplicates
-          position="bottom-right"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-          progressBar
-          closeOnToastrClick />
+        <Toastr />
         <Router>
           <Header />
           <Switch>
