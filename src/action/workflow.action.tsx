@@ -1,11 +1,11 @@
-import { workFlowDetails } from "../type";
+import { workFlowDetailsT } from "../type";
 import * as action from "./actionsCreators";
 import { addFirstNode } from "./node.action";
 import { toastSuccess, toastInfo } from "../components/Toaster";
 
 let nextWorkflow = 0
 
-export const addWorkflow = (text: workFlowDetails) => (dispatch: any) => {
+export const addWorkflow = (text: workFlowDetailsT) => (dispatch: any) => {
     let flowId = nextWorkflow++;
     dispatch({ type: action.ADD_WORKFLOW, id: flowId, text });
     dispatch(addFirstNode(flowId));

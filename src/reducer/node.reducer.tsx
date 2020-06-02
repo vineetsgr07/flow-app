@@ -1,12 +1,7 @@
 import * as actions from "../action/actionsCreators";
-import { NodeTaskT, nodeDetailsT } from "../type";
+import { nodeDetailsT, nodeREducerT } from "../type";
 
-interface nodeREducer {
-    NodeList: Array<NodeTaskT>
-    selectedNode: NodeTaskT
-}
-
-const initialState: nodeREducer = {
+const initialState: nodeREducerT = {
     NodeList: [],
     selectedNode: { workFlowID: 0, title: '', content: '', nodes: [] }
 }

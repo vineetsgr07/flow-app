@@ -1,4 +1,4 @@
-import { workFlowDetails } from "../type";
+import { workFlowDetailsT } from "../type";
 import * as actions from "../action/actionsCreators";
 export const NODE_STATUS = ['COMPLETE', "INPROGRESS", "PENDING"]
 
@@ -31,7 +31,7 @@ const workflow = (state = initialState, action: any) => {
             return { ...state, items: newState, filterItems: newfilterItemsState }
 
         case actions.FILTER_WORKFLOW:
-            const filter = state.items.filter((item: workFlowDetails) =>
+            const filter = state.items.filter((item: workFlowDetailsT) =>
                 item.name.toLocaleLowerCase().includes(action.text.toLocaleLowerCase())
             )
             return { ...state, filterItems: filter };

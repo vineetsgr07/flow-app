@@ -3,24 +3,8 @@ import { connect } from "react-redux";
 import './style.css';
 import { Cards } from "../components/Card";
 import * as actions from "../action/node.action";
-import { workFlowDetails } from "../type";
+import { workFlowDetailsT, NodeT, cardT } from "../type";
 import StatusBtn from "../components/Button/status";
-
-interface NodeT {
-    shuffle: () => void
-    remove: () => void
-    add: () => void
-    setCurrentNode: (id: number) => void
-    save: () => void
-    toggleStatus: (id: number) => void
-    editContent: (id: number, text: string) => void
-    editTitle: (id: number, text: string) => void
-    editFlowTitle: (flowName: any) => void
-    clearSelectedNode: () => void
-    selectedNode: any
-    history: any
-    workFlowName: string
-}
 
 const Node = ({ shuffle,
     remove,
@@ -72,12 +56,6 @@ const Node = ({ shuffle,
     </div>
 }
 
-interface cardP {
-    item: workFlowDetails
-    handler: any
-}
-
-
 const NodeOperation = ({ shuffle, deleteNode, addNode, save, flowTitle, editFlowTitle }: any) => {
 
     const [flowName, setFlowName] = useState(flowTitle)
@@ -104,7 +82,7 @@ const NodeOperation = ({ shuffle, deleteNode, addNode, save, flowTitle, editFlow
     </>
 }
 
-const NodeCard = ({ item: { name, status, content, id }, handler: { toggleStatus, editTitle, editContent } }: cardP) => {
+const NodeCard = ({ item: { name, status, content, id }, handler: { toggleStatus, editTitle, editContent } }: cardT) => {
 
     const [nodeName, setName] = useState(name)
     const [nodeContent, setContent] = useState(content)
@@ -146,12 +124,10 @@ const NodeCard = ({ item: { name, status, content, id }, handler: { toggleStatus
     </>
 }
 
-const mapStateToProps = (state: any) => {
-    return {
+const mapStateToProps = (state: any) => ({
         selectedNode: state.node.selectedNode.nodes,
         workFlowName: state.node.selectedNode.workFlowName
-    }
-}
+    })
 
 const mapDispatchToProps = (dispatch: any) => ({
     setCurrentNode: (id: number) => dispatch(actions.setCurrentNode(id)),

@@ -3,20 +3,10 @@ import { connect } from "react-redux";
 
 import { Cards } from "../components/Card";
 import * as actions from "../action/workflow.action";
-import { workFlowDetails } from "../type";
+import { workflowT, WorkflowOperationsT, cardWorkfllowT } from "../type";
 import StatusBtn from "../components/Button/status";
 import RemoveBtn from "../components/Button/remove";
 import "./style.css";
-
-interface workflowT {
-    add: (addWorkflow: any) => void
-    filter: (addWorkflow: any) => void
-    remove: (id: number) => void
-    editTitle: (title: string) => void
-    toggleStatus: (id: number) => void
-    workflow: any
-    history: any
-}
 
 const Workflow = ({ add, workflow, remove, filter, editTitle, toggleStatus, history }: workflowT) => {
 
@@ -51,12 +41,7 @@ const Workflow = ({ add, workflow, remove, filter, editTitle, toggleStatus, hist
 }
 
 
-interface WorkflowOperationsType {
-    createWorkflow: () => void
-    filterWorkflow: (querry: string) => void
-}
-
-const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperationsType) => {
+const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperationsT) => {
 
     const [search, setSeach] = React.useState('');
     const setFilter = (e: any) => {
@@ -70,7 +55,7 @@ const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperatio
             <div className="flex-row flow-operation flex-space-between">
                 <div className="search-workflow flex-row">
                     <div className='m-l-32 m-l-8'>
-                        <input  className="search-input" placeholder="Search Workflows" onChange={(e: any) => setFilter(e)} />
+                        <input className="search-input" placeholder="Search Workflows" onChange={(e: any) => setFilter(e)} />
                     </div>
                     <div className='m-l-16'>
                         <button className="btn primary-btn rounded-btn" name="Filter" onClick={(search: any) => filter()}> Filter </button>
@@ -90,19 +75,7 @@ const WorkflowOperations = ({ createWorkflow, filterWorkflow }: WorkflowOperatio
     )
 }
 
-interface CardHandlerT {
-    route: (id: number) => void
-    remove: (id: number) => void
-    editTitle: () => void
-    toggleStatus: (id: number) => void
-}
-
-interface cardP {
-    item: workFlowDetails
-    handler: CardHandlerT
-}
-
-const WorkflowCard = ({ item: { name, status, id }, handler: { remove, route, toggleStatus, editTitle } }: cardP) => {
+const WorkflowCard = ({ item: { name, status, id }, handler: { remove, route, toggleStatus, editTitle } }: cardWorkfllowT) => {
 
     const [title, setTitle] = useState(name);
 
@@ -145,20 +118,16 @@ const WorkflowCard = ({ item: { name, status, id }, handler: { remove, route, to
     </>
 }
 
-const mapStateToPros = (state: any) => {
-    return {
-        workflow: state.workflow.filterItems
-    }
-}
+const mapStateToPros = (state: any) => ({
+    workflow: state.workflow.filterItems
+})
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        add: (item: any) => dispatch(actions.addWorkflow(item)),
-        filter: (id: string) => dispatch(actions.filterWorkflow(id)),
-        remove: (id: number) => dispatch(actions.deleteWorkflow(id)),
-        editTitle: () => dispatch(actions.editWorkflowTitle),
-        toggleStatus: (id: number) => dispatch(actions.changeWorkflowStatus(id))
-    }
-}
+const mapDispatchToProps = (dispatch: any) => ({
+    add: (item: any) => dispatch(actions.addWorkflow(item)),
+    filter: (id: string) => dispatch(actions.filterWorkflow(id)),
+    remove: (id: number) => dispatch(actions.deleteWorkflow(id)),
+    editTitle: () => dispatch(actions.editWorkflowTitle),
+    toggleStatus: (id: number) => dispatch(actions.changeWorkflowStatus(id))
+})
 
 export default connect(mapStateToPros, mapDispatchToProps)(Workflow);
