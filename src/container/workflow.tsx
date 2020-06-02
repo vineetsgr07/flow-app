@@ -31,7 +31,7 @@ const Workflow = ({ add, workflow, remove, filter, editTitle, toggleStatus, hist
                 filterWorkflow={(querry) => filter(querry)}
             />
             {
-                workflow.length == 0 ? <div className="flex-center"> No Items Found </div> : <Cards
+                workflow.length === 0 ? <div className="flex-center"> No Items Found </div> : <Cards
                     items={workflow}
                 >
                     {(task: any) => {

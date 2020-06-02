@@ -25,7 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "git subtree push --prefix subfolder-name-here origin gh-pages"
+    "deploy": "git subtree push --prefix build origin gp-pages"
   },
   "eslintConfig": {
     "extends": "react-app"

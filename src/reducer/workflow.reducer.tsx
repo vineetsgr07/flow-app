@@ -43,7 +43,7 @@ const workflow = (state = initialState, action: any) => {
 
         case actions.EDIT_WORKFLOW_TITLE:
             const transFormFlowTitle = state.items.map((flow: any) => {
-                if (flow.id == action.id) {
+                if (flow.id === action.id) {
                     return {
                         ...flow,
                         name: action.text
